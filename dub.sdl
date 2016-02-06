@@ -1,0 +1,5 @@
+name "simple_future"
+description "Simple asynchronous functions"
+authors "Vlad Levenfeld"
+copyright "Copyright © 2016 Vlad Levenfeld"
+license "MIT"
