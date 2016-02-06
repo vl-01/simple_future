@@ -79,17 +79,7 @@ template async(alias f)
       shared(Future!B) future
       , A args
     )
-    {
-      with((cast()future).state)
-      {
-        scope(success)
-          status = Future!B.Status.completed;
-        scope(failure)
-          status = Future!B.Status.failed;
-
-        result = f(args);
-      }
-    }
+    {mixin(asyncBody);}
 
     spawn(
       &run, cast(shared)future, args
@@ -97,6 +87,36 @@ template async(alias f)
 
     return future;
   }
+}
+Future!(B) async(B, A...)(B function(A) f, A args)
+{
+  auto future = new Future!B;
+
+  static auto run(
+    shared(Future!B) future
+    , B function(A) f, A args
+  )
+  {mixin(asyncBody);}
+
+  spawn(
+    &run, cast(shared)future, f, args
+  );
+
+  return future;
+}
+
+private {//
+  enum asyncBody = q{
+    with((cast()future).state)
+    {
+      scope(success)
+        status = Future!B.Status.completed;
+      scope(failure)
+        status = Future!B.Status.failed;
+
+      result = f(args);
+    }
+  };
 }
 
 unittest
