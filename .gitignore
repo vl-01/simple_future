@@ -1,2 +1,3 @@
 *.selections.json
 *.sw*
+.dub*
