@@ -14,3 +14,7 @@ If `f` succeeds, `c.completed` and `b == c.result`.
 If `f` throws, `c.failed`.
 
 Attempting to read `c.result` before `c.completed` is an error.
+
+`async!f` can be made blocking at any time with `c.await`.
+
+For convenience, `c.await` returns `c` so that `c.await.result == c.result`.
