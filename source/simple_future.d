@@ -34,7 +34,7 @@ public:
 
   T result()()
   in {
-    assert(this.completed);
+    assert(this.completed, "attempted to access incomplete future");
   } body {
     return state.result;
   }
